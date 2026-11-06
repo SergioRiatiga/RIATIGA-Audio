@@ -28,10 +28,43 @@ class SellerDashboardActivity : AppCompatActivity() {
             insets
         }
 
+        // Gestionar productos
+        findViewById<AppCompatButton>(R.id.btnSellerProducts).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ProductManagementActivity::class.java
+                )
+            )
+        }
+
+        // Historial de pedidos
+        findViewById<AppCompatButton>(R.id.btnSellerOrders).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    OrderHistoryActivity::class.java
+                )
+            )
+        }
+
+        // Perfil del vendedor
+        findViewById<AppCompatButton>(R.id.btnSellerProfile).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    SellerProfileActivity::class.java
+                )
+            )
+        }
+
         // Cerrar sesión
         findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
 
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(
+                this,
+                LoginActivity::class.java
+            )
 
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or
