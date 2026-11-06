@@ -28,6 +28,27 @@ class BuyerHomeActivity : AppCompatActivity() {
             insets
         }
 
+        // Abrir catálogo
+        findViewById<AppCompatButton>(R.id.btnBuyerCatalog).setOnClickListener {
+            startActivity(
+                Intent(this, BuyerCatalogActivity::class.java)
+            )
+        }
+
+        // Abrir carrito
+        findViewById<AppCompatButton>(R.id.btnBuyerCart).setOnClickListener {
+            startActivity(
+                Intent(this, CartActivity::class.java)
+            )
+        }
+
+        // Abrir perfil
+        findViewById<AppCompatButton>(R.id.btnBuyerProfile).setOnClickListener {
+            startActivity(
+                Intent(this, BuyerProfileActivity::class.java)
+            )
+        }
+
         // Cerrar sesión
         findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
 
