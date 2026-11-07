@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/space_lg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/brand_name"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_subtitle"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="@string/manage_users"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_large_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:text="Administra los usuarios registrados en RIATIGA Audio."
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body" />
+
+        <EditText
+            android:id="@+id/etSearchUser"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@drawable/bg_input"
+            android:hint="@string/search_user"
+            android:inputType="text"
+            android:paddingHorizontal="@dimen/space_md"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFilterUsers"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/space_sm"
+            android:background="@drawable/bg_input"
+            android:text="@string/filter"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            app:backgroundTint="@null" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNewUser"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_button_primary"
+            android:text="@string/new_user"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_body"
+            app:backgroundTint="@null" />
+
+        <!-- Comprador -->
+        <LinearLayout
+            android:id="@+id/cardBuyerUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sergio Riatiga"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="comprador@riatiga.com"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_body" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="Rol: Comprador"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnEditBuyer"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_primary"
+                    app:backgroundTint="@null" />
+
+                <Space
+                    android:layout_width="@dimen/space_sm"
+                    android:layout_height="1dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDeleteBuyer"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/delete"
+                    android:textAllCaps="false"
+                    android:textColor="@color/error"
+                    app:backgroundTint="@null" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Vendedor -->
+        <LinearLayout
+            android:id="@+id/cardSellerUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vendedor RIATIGA"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="vendedor@riatiga.com"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_body" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="Rol: Vendedor"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnEditSeller"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_primary"
+                    app:backgroundTint="@null" />
+
+                <Space
+                    android:layout_width="@dimen/space_sm"
+                    android:layout_height="1dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDeleteSeller"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/delete"
+                    android:textAllCaps="false"
+                    android:textColor="@color/error"
+                    app:backgroundTint="@null" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Administrador -->
+        <LinearLayout
+            android:id="@+id/cardAdminUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Administrador RIATIGA"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="admin@riatiga.com"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_body" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="Rol: Administrador"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnEditAdmin"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_primary"
+                    app:backgroundTint="@null" />
+
+                <Space
+                    android:layout_width="@dimen/space_sm"
+                    android:layout_height="1dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDeleteAdmin"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:text="@string/delete"
+                    android:textAllCaps="false"
+                    android:textColor="@color/error"
+                    app:backgroundTint="@null" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_lg"
+            android:background="@drawable/bg_input"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -28,10 +28,43 @@ class AdminDashboardActivity : AppCompatActivity() {
             insets
         }
 
+        // Gestionar usuarios
+        findViewById<AppCompatButton>(R.id.btnAdminUsers).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    UserManagementActivity::class.java
+                )
+            )
+        }
+
+        // Gestionar productos
+        findViewById<AppCompatButton>(R.id.btnAdminProducts).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ProductManagementActivity::class.java
+                )
+            )
+        }
+
+        // Reporte de ventas
+        findViewById<AppCompatButton>(R.id.btnAdminSales).setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    SalesReportActivity::class.java
+                )
+            )
+        }
+
         // Cerrar sesión
         findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
 
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(
+                this,
+                LoginActivity::class.java
+            )
 
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or
