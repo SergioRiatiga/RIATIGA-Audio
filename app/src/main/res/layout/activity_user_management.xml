@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:text="Administra los usuarios registrados en RIATIGA Audio."
+            android:text="@string/manage_users_description"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
@@ -87,7 +87,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sergio Riatiga"
+                android:text="@string/buyer_demo_name"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="comprador@riatiga.com"
+                android:text="@string/buyer_demo_email"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Rol: Comprador"
+                android:text="@string/role_buyer"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -157,7 +157,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vendedor RIATIGA"
+                android:text="@string/seller_demo_name"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -166,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="vendedor@riatiga.com"
+                android:text="@string/seller_demo_email"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -174,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Rol: Vendedor"
+                android:text="@string/role_seller"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -227,7 +227,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Administrador RIATIGA"
+                android:text="@string/admin_demo_name"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -236,7 +236,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="admin@riatiga.com"
+                android:text="@string/admin_demo_email"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -244,7 +244,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Rol: Administrador"
+                android:text="@string/role_admin"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 

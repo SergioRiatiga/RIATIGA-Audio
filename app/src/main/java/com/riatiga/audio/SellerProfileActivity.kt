@@ -17,7 +17,9 @@ class SellerProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_seller_profile)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -35,10 +37,21 @@ class SellerProfileActivity : AppCompatActivity() {
         val etStore = findViewById<EditText>(R.id.etSellerStore)
 
         // Datos de demostración del vendedor
-        etName.setText("Vendedor RIATIGA")
-        etEmail.setText("vendedor@riatiga.com")
-        etPhone.setText("300 555 1234")
-        etStore.setText("RIATIGA Audio")
+        etName.setText(
+            getString(R.string.seller_demo_name)
+        )
+
+        etEmail.setText(
+            getString(R.string.seller_demo_email)
+        )
+
+        etPhone.setText(
+            getString(R.string.seller_demo_phone)
+        )
+
+        etStore.setText(
+            getString(R.string.seller_demo_store)
+        )
 
         // Guardar cambios del perfil
         findViewById<AppCompatButton>(R.id.btnSaveSellerProfile).setOnClickListener {
@@ -55,7 +68,7 @@ class SellerProfileActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Nombre, correo y tienda son obligatorios",
+                    getString(R.string.seller_required_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -64,7 +77,7 @@ class SellerProfileActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Perfil actualizado correctamente",
+                getString(R.string.seller_profile_updated),
                 Toast.LENGTH_SHORT
             ).show()
         }

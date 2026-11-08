@@ -21,7 +21,9 @@ class CartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cart)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -94,12 +96,13 @@ class CartActivity : AppCompatActivity() {
         tvQuantity: TextView,
         tvTotal: TextView
     ) {
+
         tvQuantity.text = cantidad.toString()
 
         val total = precioUnitario * cantidad
 
         tvTotal.text = String.format(
-            "$%,d",
+            getString(R.string.currency_format),
             total
         ).replace(",", ".")
     }

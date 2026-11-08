@@ -17,7 +17,9 @@ class BuyerProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_buyer_profile)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -35,21 +37,33 @@ class BuyerProfileActivity : AppCompatActivity() {
         val etAddress = findViewById<EditText>(R.id.etProfileAddress)
 
         // Datos de demostración del comprador
-        etName.setText("Sergio Riatiga")
-        etEmail.setText("comprador@riatiga.com")
-        etPhone.setText("300 123 4567")
-        etAddress.setText("Bogotá, Colombia")
+        etName.setText(
+            getString(R.string.buyer_demo_name)
+        )
+
+        etEmail.setText(
+            getString(R.string.buyer_demo_email)
+        )
+
+        etPhone.setText(
+            getString(R.string.buyer_demo_phone)
+        )
+
+        etAddress.setText(
+            getString(R.string.demo_location)
+        )
 
         // Simulación de guardado del perfil
         findViewById<AppCompatButton>(R.id.btnSaveProfile).setOnClickListener {
 
-            if (etName.text.toString().trim().isEmpty() ||
+            if (
+                etName.text.toString().trim().isEmpty() ||
                 etEmail.text.toString().trim().isEmpty()
             ) {
 
                 Toast.makeText(
                     this,
-                    "Nombre y correo son obligatorios",
+                    getString(R.string.required_name_email),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -58,7 +72,7 @@ class BuyerProfileActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Cambios guardados correctamente",
+                getString(R.string.changes_saved),
                 Toast.LENGTH_SHORT
             ).show()
         }

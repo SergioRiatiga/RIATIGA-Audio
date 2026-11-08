@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cantidad"
+                    android:text="@string/quantity"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_body" />
 
@@ -81,7 +81,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_input"
-                    android:text="-"
+                    android:text="@string/decrease_quantity"
                     android:textAllCaps="false"
                     android:textColor="@color/text_primary"
                     app:backgroundTint="@null" />
@@ -91,7 +91,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:gravity="center"
-                    android:text="1"
+                    android:text="@string/quantity_initial"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_body"
                     android:textStyle="bold" />
@@ -101,7 +101,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_input"
-                    android:text="+"
+                    android:text="@string/increase_quantity"
                     android:textAllCaps="false"
                     android:textColor="@color/text_primary"
                     app:backgroundTint="@null" />
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
-            android:text="Total"
+            android:text="@string/total"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 

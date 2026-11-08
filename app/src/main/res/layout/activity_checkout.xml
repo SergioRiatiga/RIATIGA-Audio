@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Tarjeta débito / crédito"
+                android:text="@string/debit_credit_card"
                 android:textColor="@color/text_primary" />
 
             <RadioButton
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Pago mediante pasarela externa"
+                android:text="@string/external_gateway"
                 android:textColor="@color/text_primary" />
 
         </RadioGroup>
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Resumen de compra"
+                android:text="@string/purchase_summary"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Cantidad: 1"
+                android:text="@string/quantity_one"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -149,7 +149,7 @@
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/space_xl"
             android:background="@drawable/bg_button_primary"
-            android:text="Pagar"
+            android:text="@string/pay"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/text_body"

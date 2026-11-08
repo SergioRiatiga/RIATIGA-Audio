@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SellerDashboardActivity : AppCompatActivity() {
 
@@ -16,7 +17,9 @@ class SellerDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_seller_dashboard)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -28,43 +31,63 @@ class SellerDashboardActivity : AppCompatActivity() {
             insets
         }
 
-        // Gestionar productos
-        findViewById<AppCompatButton>(R.id.btnSellerProducts).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    ProductManagementActivity::class.java
-                )
+        val bottomNavigation =
+            findViewById<BottomNavigationView>(
+                R.id.bottomNavigationSeller
             )
-        }
 
-        // Historial de pedidos
-        findViewById<AppCompatButton>(R.id.btnSellerOrders).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    OrderHistoryActivity::class.java
-                )
-            )
-        }
+        bottomNavigation.setOnItemSelectedListener { item ->
 
-        // Perfil del vendedor
-        findViewById<AppCompatButton>(R.id.btnSellerProfile).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    SellerProfileActivity::class.java
-                )
-            )
+            when (item.itemId) {
+
+                R.id.navSellerHome -> {
+                    true
+                }
+
+                R.id.navSellerProducts -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            ProductManagementActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navSellerOrders -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            OrderHistoryActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navSellerProfile -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            SellerProfileActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                else -> false
+            }
         }
 
         // Cerrar sesión
-        findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnLogout
+        ).setOnClickListener {
 
-            val intent = Intent(
-                this,
-                LoginActivity::class.java
-            )
+            val intent =
+                Intent(
+                    this,
+                    LoginActivity::class.java
+                )
 
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -72,5 +95,14 @@ class SellerDashboardActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Al regresar al panel se marca nuevamente Inicio
+        findViewById<BottomNavigationView>(
+            R.id.bottomNavigationSeller
+        ).selectedItemId = R.id.navSellerHome
     }
 }

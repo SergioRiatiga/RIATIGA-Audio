@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:text="Consulta los pedidos recibidos y su estado actual."
+            android:text="@string/order_history_description"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pedido #001"
+                android:text="@string/order_001"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Cantidad: 1"
+                android:text="@string/quantity_one"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
-                android:text="Estado: En preparación"
+                android:text="@string/order_status_preparing"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pedido #002"
+                android:text="@string/order_002"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Cantidad: 2"
+                android:text="@string/quantity_two"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -128,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="$1.699.800"
+                android:text="@string/one_two_units_price"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
-                android:text="Estado: Enviado"
+                android:text="@string/order_status_sent"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -155,7 +155,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pedido #003"
+                android:text="@string/order_003"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="Cantidad: 1"
+                android:text="@string/quantity_one"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -189,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
-                android:text="Estado: Entregado"
+                android:text="@string/order_status_delivered"
                 android:textColor="@color/success"
                 android:textSize="@dimen/text_small" />
 

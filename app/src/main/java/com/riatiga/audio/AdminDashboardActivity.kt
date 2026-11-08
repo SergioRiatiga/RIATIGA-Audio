@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminDashboardActivity : AppCompatActivity() {
 
@@ -16,7 +17,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin_dashboard)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -28,43 +31,63 @@ class AdminDashboardActivity : AppCompatActivity() {
             insets
         }
 
-        // Gestionar usuarios
-        findViewById<AppCompatButton>(R.id.btnAdminUsers).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    UserManagementActivity::class.java
-                )
+        val bottomNavigation =
+            findViewById<BottomNavigationView>(
+                R.id.bottomNavigationAdmin
             )
-        }
 
-        // Gestionar productos
-        findViewById<AppCompatButton>(R.id.btnAdminProducts).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    ProductManagementActivity::class.java
-                )
-            )
-        }
+        bottomNavigation.setOnItemSelectedListener { item ->
 
-        // Reporte de ventas
-        findViewById<AppCompatButton>(R.id.btnAdminSales).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    SalesReportActivity::class.java
-                )
-            )
+            when (item.itemId) {
+
+                R.id.navAdminHome -> {
+                    true
+                }
+
+                R.id.navAdminUsers -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            UserManagementActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navAdminProducts -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            ProductManagementActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navAdminSales -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            SalesReportActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                else -> false
+            }
         }
 
         // Cerrar sesión
-        findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnLogout
+        ).setOnClickListener {
 
-            val intent = Intent(
-                this,
-                LoginActivity::class.java
-            )
+            val intent =
+                Intent(
+                    this,
+                    LoginActivity::class.java
+                )
 
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -72,5 +95,14 @@ class AdminDashboardActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Al regresar al panel se marca nuevamente Inicio
+        findViewById<BottomNavigationView>(
+            R.id.bottomNavigationAdmin
+        ).selectedItemId = R.id.navAdminHome
     }
 }

@@ -51,15 +51,13 @@
             android:orientation="vertical"
             android:padding="@dimen/space_lg">
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:background="@color/gray_200"
-                android:gravity="center"
-                android:text="@string/air_pro"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_subtitle"
-                android:textStyle="bold" />
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/air_pro"
+                android:scaleType="fitCenter"
+                android:src="@drawable/air_pro" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,15 +106,13 @@
             android:orientation="vertical"
             android:padding="@dimen/space_lg">
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:background="@color/gray_200"
-                android:gravity="center"
-                android:text="@string/one"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_subtitle"
-                android:textStyle="bold" />
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/one"
+                android:scaleType="fitCenter"
+                android:src="@drawable/riatiga_one" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -134,6 +130,14 @@
                 android:text="@string/one_price"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/one_features"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_small" />
 
             <TextView
                 android:layout_width="wrap_content"

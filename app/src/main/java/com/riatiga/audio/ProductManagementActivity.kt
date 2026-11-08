@@ -19,7 +19,9 @@ class ProductManagementActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_management)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -75,7 +77,7 @@ class ProductManagementActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnDeleteAirPro).setOnClickListener {
 
             mostrarConfirmacionEliminar(
-                "RIATIGA Air Pro",
+                getString(R.string.air_pro),
                 cardAirPro
             )
         }
@@ -84,7 +86,7 @@ class ProductManagementActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnDeleteOne).setOnClickListener {
 
             mostrarConfirmacionEliminar(
-                "RIATIGA One",
+                getString(R.string.one),
                 cardOne
             )
         }
@@ -101,12 +103,22 @@ class ProductManagementActivity : AppCompatActivity() {
     ) {
 
         AlertDialog.Builder(this)
-            .setTitle("Eliminar producto")
-            .setMessage(
-                "¿Deseas eliminar $nombreProducto del catálogo?"
+            .setTitle(
+                getString(R.string.delete_product)
             )
-            .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Eliminar") { _, _ ->
+            .setMessage(
+                getString(
+                    R.string.delete_product_confirmation,
+                    nombreProducto
+                )
+            )
+            .setNegativeButton(
+                getString(R.string.cancel),
+                null
+            )
+            .setPositiveButton(
+                getString(R.string.delete)
+            ) { _, _ ->
 
                 tarjetaProducto.visibility = View.GONE
             }

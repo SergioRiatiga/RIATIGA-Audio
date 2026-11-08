@@ -6,6 +6,19 @@
     <string name="brand_name">RIATIGA</string>
     <string name="brand_subtitle">A U D I O</string>
 
+    <!-- Navegación -->
+    <string name="home">Inicio</string>
+    <string name="catalog">Catálogo</string>
+    <string name="cart">Carrito</string>
+    <string name="profile">Perfil</string>
+    <string name="products">Productos</string>
+    <string name="users">Usuarios</string>
+    <string name="sales">Ventas</string>
+    <string name="orders">Pedidos</string>
+    <string name="back">Volver</string>
+    <string name="cancel">Cancelar</string>
+    <string name="logout">Cerrar sesión</string>
+
     <!-- Autenticación -->
     <string name="login_title">Bienvenido</string>
     <string name="email">Correo electrónico</string>
@@ -14,10 +27,19 @@
     <string name="biometric_login">Ingresar con huella</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="register">Crear cuenta</string>
-    <string name="demo_access">Acceso de demostración</string>
-    <string name="buyer">Comprador</string>
-    <string name="seller">Vendedor</string>
-    <string name="administrator">Administrador</string>
+
+    <string name="invalid_credentials">Correo o contraseña incorrectos</string>
+    <string name="login_first">Primero inicia sesión con correo y contraseña</string>
+
+    <!-- Biometría -->
+    <string name="biometric_title">Autenticación biométrica</string>
+    <string name="biometric_subtitle">Usa tu huella para ingresar a RIATIGA Audio</string>
+    <string name="biometric_success">Autenticación biométrica correcta</string>
+    <string name="biometric_failed">Huella no reconocida</string>
+    <string name="biometric_no_hardware">El dispositivo no tiene sensor biométrico</string>
+    <string name="biometric_unavailable">El sensor biométrico no está disponible</string>
+    <string name="biometric_not_enrolled">No hay una huella registrada en el dispositivo</string>
+    <string name="biometric_not_available">La autenticación biométrica no está disponible</string>
 
     <!-- Recuperación -->
     <string name="recover_password">Recuperar contraseña</string>
@@ -26,57 +48,202 @@
     <string name="back_to_login">Volver al inicio de sesión</string>
 
     <!-- Comprador -->
+    <string name="buyer">Comprador</string>
     <string name="find_your_sound">Encuentra tu sonido</string>
     <string name="home_subtitle">Audífonos pensados para cada momento.</string>
-    <string name="catalog">Catálogo</string>
-    <string name="cart">Carrito</string>
-    <string name="profile">Perfil</string>
     <string name="my_profile">Mi perfil</string>
     <string name="product_detail">Detalle del producto</string>
     <string name="add_to_cart">Agregar al carrito</string>
     <string name="continue_payment">Continuar al pago</string>
+
+    <!-- Carrito -->
+    <string name="quantity">Cantidad</string>
+    <string name="quantity_value">Cantidad: %1$d</string>
+    <string name="total">Total</string>
+    <string name="increase_quantity">+</string>
+    <string name="decrease_quantity">-</string>
+
+    <!-- Pago -->
     <string name="checkout">Finalizar compra</string>
     <string name="delivery_address">Dirección de entrega</string>
     <string name="use_location">Usar mi ubicación</string>
     <string name="payment_method">Método de pago</string>
+    <string name="debit_credit_card">Tarjeta débito / crédito</string>
+    <string name="external_gateway">Pago mediante pasarela externa</string>
+    <string name="purchase_summary">Resumen de compra</string>
+    <string name="pay">Pagar</string>
+    <string name="pay_amount">Pagar %1$s</string>
+
+    <string name="demo_location">Bogotá, Colombia</string>
+    <string name="demo_location_selected">Ubicación de demostración seleccionada</string>
+    <string name="enter_delivery_address">Ingresa una dirección de entrega</string>
+    <string name="payment_completed">Pago realizado</string>
+    <string name="payment_success_message">La compra fue procesada correctamente.\n\nTotal: %1$s</string>
+    <string name="accept">Aceptar</string>
+
+    <!-- Perfil -->
+    <string name="name">Nombre</string>
+    <string name="phone">Teléfono</string>
+    <string name="address">Dirección</string>
     <string name="save_changes">Guardar cambios</string>
+    <string name="required_name_email">Nombre y correo son obligatorios</string>
+    <string name="changes_saved">Cambios guardados correctamente</string>
 
     <!-- Productos -->
     <string name="air_pro">RIATIGA Air Pro</string>
     <string name="air_pro_price">$699.900</string>
     <string name="one">RIATIGA One</string>
     <string name="one_price">$849.900</string>
-    <string name="product_features">Bluetooth 5.3 · Batería hasta 30 h · Cancelación de ruido</string>
 
-    <!-- Vendedor -->
-    <string name="seller_panel">Panel Vendedor</string>
-    <string name="manage_products">Gestionar productos</string>
-    <string name="orders">Pedidos</string>
-    <string name="order_history">Historial de pedidos</string>
-    <string name="new_product">Nuevo producto</string>
-    <string name="edit">Editar</string>
-    <string name="delete">Eliminar</string>
-    <string name="save_product">Guardar producto</string>
+    <string name="product_features">Bluetooth 5.3 · Batería hasta 30 h · Cancelación de ruido</string>
+    <string name="one_features">Bluetooth 5.3 · Sonido envolvente · Diseño over-ear</string>
+
     <string name="product_name">Nombre del producto</string>
     <string name="price">Precio</string>
     <string name="stock">Stock</string>
     <string name="features">Características</string>
 
+    <string name="price_example">Ej. 699900</string>
+    <string name="stock_example">Ej. 10</string>
+    <string name="features_hint">Describe las características principales</string>
+
+    <!-- Vendedor -->
+    <string name="seller">Vendedor</string>
+    <string name="seller_panel">Panel Vendedor</string>
+    <string name="seller_dashboard_description">Gestiona tus productos, pedidos y perfil.</string>
+
+    <string name="manage_products">Gestionar productos</string>
+    <string name="manage_products_description">Administra el catálogo disponible en RIATIGA Audio.</string>
+    <string name="active_products">Productos activos</string>
+    <string name="recent_orders">Pedidos recientes</string>
+
+    <string name="new_product">Nuevo producto</string>
+    <string name="edit_product">Editar producto</string>
+    <string name="product_form_description">Completa la información del producto.</string>
+
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="save_product">Guardar producto</string>
+
+    <string name="complete_all_fields">Completa todos los campos</string>
+    <string name="product_created">Producto creado correctamente</string>
+    <string name="product_updated">Producto actualizado correctamente</string>
+
+    <string name="delete_product">Eliminar producto</string>
+    <string name="delete_product_confirmation">¿Deseas eliminar %1$s del catálogo?</string>
+
+    <string name="stock_air_pro">Stock: 18 unidades</string>
+    <string name="stock_one">Stock: 9 unidades</string>
+
+    <!-- Pedidos -->
+    <string name="order_history">Historial de pedidos</string>
+    <string name="order_history_description">Consulta los pedidos recibidos y su estado actual.</string>
+
+    <string name="order_001">Pedido #001</string>
+    <string name="order_002">Pedido #002</string>
+    <string name="order_003">Pedido #003</string>
+
+    <string name="quantity_one">Cantidad: 1</string>
+    <string name="quantity_two">Cantidad: 2</string>
+
+    <string name="order_status_preparing">Estado: En preparación</string>
+    <string name="order_status_sent">Estado: Enviado</string>
+    <string name="order_status_delivered">Estado: Entregado</string>
+
+    <string name="one_two_units_price">$1.699.800</string>
+
+    <!-- Perfil vendedor -->
+    <string name="seller_profile">Perfil del vendedor</string>
+    <string name="seller_profile_description">Consulta y actualiza tu información de vendedor.</string>
+    <string name="store_name">Nombre de la tienda</string>
+
+    <string name="seller_demo_name">Vendedor RIATIGA</string>
+    <string name="seller_demo_email">vendedor@riatiga.com</string>
+    <string name="seller_demo_phone">300 555 1234</string>
+    <string name="seller_demo_store">RIATIGA Audio</string>
+
+    <string name="seller_required_fields">Nombre, correo y tienda son obligatorios</string>
+    <string name="seller_profile_updated">Perfil actualizado correctamente</string>
+
     <!-- Administrador -->
+    <string name="administrator">Administrador</string>
     <string name="admin_panel">Panel Administrador</string>
+    <string name="admin_dashboard_description">Gestiona usuarios, productos y ventas de RIATIGA Audio.</string>
+
+    <string name="registered_users">Usuarios registrados</string>
     <string name="manage_users">Gestionar usuarios</string>
-    <string name="sales_report">Reporte de ventas</string>
+    <string name="manage_users_description">Administra los usuarios registrados en RIATIGA Audio.</string>
+
     <string name="new_user">Nuevo usuario</string>
+    <string name="edit_user">Editar usuario</string>
+    <string name="user_form_description">Completa la información del usuario.</string>
+
     <string name="search_user">Buscar por nombre o correo</string>
     <string name="filter">Filtrar</string>
+    <string name="role">Rol</string>
+
+    <string name="role_buyer">Rol: Comprador</string>
+    <string name="role_seller">Rol: Vendedor</string>
+    <string name="role_admin">Rol: Administrador</string>
+
+    <string name="showing_all_users">Mostrando todos los usuarios</string>
+    <string name="no_users_found">No se encontraron usuarios</string>
+
+    <string name="invalid_email">Ingresa un correo electrónico válido</string>
+    <string name="user_created">Usuario creado como %1$s</string>
+    <string name="user_updated">Usuario actualizado correctamente</string>
+
+    <string name="delete_user">Eliminar usuario</string>
+    <string name="delete_user_confirmation">¿Deseas eliminar a %1$s?</string>
+
+    <!-- Usuarios demostrativos -->
+    <string name="buyer_demo_name">Sergio Riatiga</string>
+    <string name="buyer_demo_email">comprador@riatiga.com</string>
+    <string name="buyer_demo_phone">300 123 4567</string>
+
+    <string name="admin_demo_name">Administrador RIATIGA</string>
+    <string name="admin_demo_email">admin@riatiga.com</string>
+    <string name="admin_demo_phone">300 777 1234</string>
+
+    <!-- Reporte de ventas -->
+    <string name="sales_report">Reporte de ventas</string>
+    <string name="sales_report_description">Resumen general del desempeño comercial de RIATIGA Audio.</string>
+
+    <string name="total_revenue">Ingresos totales</string>
+    <string name="total_revenue_value">$18.497.500</string>
+
+    <string name="orders_label">Pedidos</string>
+    <string name="total_orders_value">24</string>
+
+    <string name="units_sold">Unidades vendidas</string>
+    <string name="units_sold_value">27</string>
+
+    <string name="sales_by_product">Ventas por producto</string>
+
+    <string name="air_pro_units_sold">15 unidades vendidas</string>
+    <string name="air_pro_sales">$10.498.500 en ventas</string>
+
+    <string name="one_units_sold">12 unidades vendidas</string>
+    <string name="one_sales">$10.198.800 en ventas</string>
 
     <!-- Comunes -->
-    <string name="name">Nombre</string>
-    <string name="phone">Teléfono</string>
-    <string name="address">Dirección</string>
     <string name="save">Guardar</string>
-    <string name="cancel">Cancelar</string>
-    <string name="back">Volver</string>
-    <string name="logout">Cerrar sesión</string>
+
+    <string name="registered_users_value">3</string>
+    <string name="active_products_value">2</string>
+    <string name="recent_orders_value">3</string>
+
+    <string name="quantity_initial">1</string>
+
+    <string name="featured_products">Productos destacados</string>
+
+    <string name="currency_format">$%,d</string>
+
+    <string name="air_pro_price_input">699900</string>
+    <string name="air_pro_stock_input">18</string>
+    <string name="one_price_input">849900</string>
+    <string name="one_stock_input">9</string>
+
+    <string name="demo_password">1234</string>
 
 </resources>

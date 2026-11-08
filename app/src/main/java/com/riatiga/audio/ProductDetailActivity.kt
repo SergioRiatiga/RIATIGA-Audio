@@ -2,6 +2,7 @@ package com.riatiga.audio
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +32,7 @@ class ProductDetailActivity : AppCompatActivity() {
             insets
         }
 
-        val tvProductVisual = findViewById<TextView>(R.id.tvProductVisual)
+        val ivProductImage = findViewById<ImageView>(R.id.ivProductImage)
         val tvProductName = findViewById<TextView>(R.id.tvProductName)
         val tvProductPrice = findViewById<TextView>(R.id.tvProductPrice)
         val tvProductFeatures = findViewById<TextView>(R.id.tvProductFeatures)
@@ -43,14 +44,18 @@ class ProductDetailActivity : AppCompatActivity() {
         when (productoSeleccionado) {
 
             "one" -> {
-                tvProductVisual.text = getString(R.string.one)
+                ivProductImage.setImageResource(R.drawable.riatiga_one)
+                ivProductImage.contentDescription = getString(R.string.one)
+
                 tvProductName.text = getString(R.string.one)
                 tvProductPrice.text = getString(R.string.one_price)
-                tvProductFeatures.text = getString(R.string.product_features)
+                tvProductFeatures.text = getString(R.string.one_features)
             }
 
             else -> {
-                tvProductVisual.text = getString(R.string.air_pro)
+                ivProductImage.setImageResource(R.drawable.air_pro)
+                ivProductImage.contentDescription = getString(R.string.air_pro)
+
                 tvProductName.text = getString(R.string.air_pro)
                 tvProductPrice.text = getString(R.string.air_pro_price)
                 tvProductFeatures.text = getString(R.string.product_features)
@@ -59,7 +64,6 @@ class ProductDetailActivity : AppCompatActivity() {
 
         // Agregar producto al carrito
         findViewById<AppCompatButton>(R.id.btnAddToCart).setOnClickListener {
-
             val intent = Intent(this, CartActivity::class.java)
 
             intent.putExtra(

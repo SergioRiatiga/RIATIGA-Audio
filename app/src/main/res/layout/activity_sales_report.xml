@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:text="Resumen general del desempeño comercial de RIATIGA Audio."
+            android:text="@string/sales_report_description"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingresos totales"
+                android:text="@string/total_revenue"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_small" />
 
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="$18.497.500"
+                android:text="@string/total_revenue_value"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_title"
                 android:textStyle="bold" />
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pedidos"
+                    android:text="@string/orders_label"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_small" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_sm"
-                    android:text="24"
+                    android:text="@string/total_orders_value"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_title"
                     android:textStyle="bold" />
@@ -116,7 +116,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Unidades vendidas"
+                    android:text="@string/units_sold"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_small" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_sm"
-                    android:text="27"
+                    android:text="@string/units_sold_value"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_title"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
-            android:text="Ventas por producto"
+            android:text="@string/sales_by_product"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_subtitle"
             android:textStyle="bold" />
@@ -165,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="15 unidades vendidas"
+                android:text="@string/air_pro_units_sold"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="$10.498.500 en ventas"
+                android:text="@string/air_pro_sales"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />
@@ -211,7 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="12 unidades vendidas"
+                android:text="@string/one_units_sold"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
@@ -219,7 +219,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="$10.198.800 en ventas"
+                android:text="@string/one_sales"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />

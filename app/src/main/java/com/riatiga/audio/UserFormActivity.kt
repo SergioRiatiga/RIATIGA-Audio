@@ -22,7 +22,9 @@ class UserFormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_form)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -44,9 +46,9 @@ class UserFormActivity : AppCompatActivity() {
 
         // Roles disponibles
         val roles = arrayOf(
-            "Comprador",
-            "Vendedor",
-            "Administrador"
+            getString(R.string.buyer),
+            getString(R.string.seller),
+            getString(R.string.administrator)
         )
 
         val adapter = ArrayAdapter(
@@ -67,34 +69,34 @@ class UserFormActivity : AppCompatActivity() {
         when (usuarioSeleccionado) {
 
             "buyer" -> {
-                tvTitle.text = "Editar usuario"
+                tvTitle.text = getString(R.string.edit_user)
 
-                etName.setText("Sergio Riatiga")
-                etEmail.setText("comprador@riatiga.com")
-                etPhone.setText("300 123 4567")
-                etPassword.setText("1234")
+                etName.setText(getString(R.string.buyer_demo_name))
+                etEmail.setText(getString(R.string.buyer_demo_email))
+                etPhone.setText(getString(R.string.buyer_demo_phone))
+                etPassword.setText(getString(R.string.demo_password))
 
                 spinnerRole.setSelection(0)
             }
 
             "seller" -> {
-                tvTitle.text = "Editar usuario"
+                tvTitle.text = getString(R.string.edit_user)
 
-                etName.setText("Vendedor RIATIGA")
-                etEmail.setText("vendedor@riatiga.com")
-                etPhone.setText("300 555 1234")
-                etPassword.setText("1234")
+                etName.setText(getString(R.string.seller_demo_name))
+                etEmail.setText(getString(R.string.seller_demo_email))
+                etPhone.setText(getString(R.string.seller_demo_phone))
+                etPassword.setText(getString(R.string.demo_password))
 
                 spinnerRole.setSelection(1)
             }
 
             "admin" -> {
-                tvTitle.text = "Editar usuario"
+                tvTitle.text = getString(R.string.edit_user)
 
-                etName.setText("Administrador RIATIGA")
-                etEmail.setText("admin@riatiga.com")
-                etPhone.setText("300 777 1234")
-                etPassword.setText("1234")
+                etName.setText(getString(R.string.admin_demo_name))
+                etEmail.setText(getString(R.string.admin_demo_email))
+                etPhone.setText(getString(R.string.admin_demo_phone))
+                etPassword.setText(getString(R.string.demo_password))
 
                 spinnerRole.setSelection(2)
             }
@@ -124,7 +126,7 @@ class UserFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Completa todos los campos",
+                    getString(R.string.complete_all_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -135,7 +137,7 @@ class UserFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Ingresa un correo electrónico válido",
+                    getString(R.string.invalid_email),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -146,7 +148,10 @@ class UserFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Usuario creado como $rol",
+                    getString(
+                        R.string.user_created,
+                        rol
+                    ),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -154,7 +159,7 @@ class UserFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Usuario actualizado correctamente",
+                    getString(R.string.user_updated),
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BuyerHomeActivity : AppCompatActivity() {
 
@@ -16,7 +17,9 @@ class BuyerHomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_buyer_home)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -28,31 +31,63 @@ class BuyerHomeActivity : AppCompatActivity() {
             insets
         }
 
-        // Abrir catálogo
-        findViewById<AppCompatButton>(R.id.btnBuyerCatalog).setOnClickListener {
-            startActivity(
-                Intent(this, BuyerCatalogActivity::class.java)
+        val bottomNavigation =
+            findViewById<BottomNavigationView>(
+                R.id.bottomNavigationBuyer
             )
-        }
 
-        // Abrir carrito
-        findViewById<AppCompatButton>(R.id.btnBuyerCart).setOnClickListener {
-            startActivity(
-                Intent(this, CartActivity::class.java)
-            )
-        }
+        bottomNavigation.setOnItemSelectedListener { item ->
 
-        // Abrir perfil
-        findViewById<AppCompatButton>(R.id.btnBuyerProfile).setOnClickListener {
-            startActivity(
-                Intent(this, BuyerProfileActivity::class.java)
-            )
+            when (item.itemId) {
+
+                R.id.navBuyerHome -> {
+                    true
+                }
+
+                R.id.navBuyerCatalog -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            BuyerCatalogActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navBuyerCart -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            CartActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                R.id.navBuyerProfile -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            BuyerProfileActivity::class.java
+                        )
+                    )
+                    true
+                }
+
+                else -> false
+            }
         }
 
         // Cerrar sesión
-        findViewById<AppCompatButton>(R.id.btnLogout).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnLogout
+        ).setOnClickListener {
 
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent =
+                Intent(
+                    this,
+                    LoginActivity::class.java
+                )
 
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -60,5 +95,15 @@ class BuyerHomeActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Cada vez que se vuelve al inicio,
+        // el menú marca nuevamente "Inicio"
+        findViewById<BottomNavigationView>(
+            R.id.bottomNavigationBuyer
+        ).selectedItemId = R.id.navBuyerHome
     }
 }

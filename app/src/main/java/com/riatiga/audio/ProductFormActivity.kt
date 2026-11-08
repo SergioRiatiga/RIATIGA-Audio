@@ -20,7 +20,9 @@ class ProductFormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_form)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -50,25 +52,21 @@ class ProductFormActivity : AppCompatActivity() {
         when (productoSeleccionado) {
 
             "air_pro" -> {
-                tvTitle.text = "Editar producto"
+                tvTitle.text = getString(R.string.edit_product)
 
                 etName.setText(getString(R.string.air_pro))
-                etPrice.setText("699900")
-                etStock.setText("18")
-                etFeatures.setText(
-                    "Bluetooth 5.3 · Batería hasta 30 h · Cancelación de ruido"
-                )
+                etPrice.setText(getString(R.string.air_pro_price_input))
+                etStock.setText(getString(R.string.air_pro_stock_input))
+                etFeatures.setText(getString(R.string.product_features))
             }
 
             "one" -> {
-                tvTitle.text = "Editar producto"
+                tvTitle.text = getString(R.string.edit_product)
 
                 etName.setText(getString(R.string.one))
-                etPrice.setText("849900")
-                etStock.setText("9")
-                etFeatures.setText(
-                    "Bluetooth 5.3 · Sonido envolvente · Diseño over-ear"
-                )
+                etPrice.setText(getString(R.string.one_price_input))
+                etStock.setText(getString(R.string.one_stock_input))
+                etFeatures.setText(getString(R.string.one_features))
             }
 
             else -> {
@@ -93,7 +91,7 @@ class ProductFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Completa todos los campos",
+                    getString(R.string.complete_all_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -104,7 +102,7 @@ class ProductFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Producto creado correctamente",
+                    getString(R.string.product_created),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -112,7 +110,7 @@ class ProductFormActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Producto actualizado correctamente",
+                    getString(R.string.product_updated),
                     Toast.LENGTH_SHORT
                 ).show()
             }

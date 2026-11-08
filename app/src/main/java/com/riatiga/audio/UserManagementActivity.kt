@@ -21,7 +21,9 @@ class UserManagementActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_management)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -90,7 +92,7 @@ class UserManagementActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnDeleteBuyer).setOnClickListener {
 
             mostrarConfirmacionEliminar(
-                "Sergio Riatiga",
+                getString(R.string.buyer_demo_name),
                 cardBuyer
             )
         }
@@ -99,7 +101,7 @@ class UserManagementActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnDeleteSeller).setOnClickListener {
 
             mostrarConfirmacionEliminar(
-                "Vendedor RIATIGA",
+                getString(R.string.seller_demo_name),
                 cardSeller
             )
         }
@@ -108,7 +110,7 @@ class UserManagementActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnDeleteAdmin).setOnClickListener {
 
             mostrarConfirmacionEliminar(
-                "Administrador RIATIGA",
+                getString(R.string.admin_demo_name),
                 cardAdmin
             )
         }
@@ -127,7 +129,7 @@ class UserManagementActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Mostrando todos los usuarios",
+                    getString(R.string.showing_all_users),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -135,19 +137,37 @@ class UserManagementActivity : AppCompatActivity() {
             }
 
             val mostrarBuyer =
-                "sergio riatiga".contains(busqueda) ||
-                        "comprador@riatiga.com".contains(busqueda) ||
-                        "comprador".contains(busqueda)
+                getString(R.string.buyer_demo_name)
+                    .lowercase()
+                    .contains(busqueda) ||
+                        getString(R.string.buyer_demo_email)
+                            .lowercase()
+                            .contains(busqueda) ||
+                        getString(R.string.buyer)
+                            .lowercase()
+                            .contains(busqueda)
 
             val mostrarSeller =
-                "vendedor riatiga".contains(busqueda) ||
-                        "vendedor@riatiga.com".contains(busqueda) ||
-                        "vendedor".contains(busqueda)
+                getString(R.string.seller_demo_name)
+                    .lowercase()
+                    .contains(busqueda) ||
+                        getString(R.string.seller_demo_email)
+                            .lowercase()
+                            .contains(busqueda) ||
+                        getString(R.string.seller)
+                            .lowercase()
+                            .contains(busqueda)
 
             val mostrarAdmin =
-                "administrador riatiga".contains(busqueda) ||
-                        "admin@riatiga.com".contains(busqueda) ||
-                        "administrador".contains(busqueda)
+                getString(R.string.admin_demo_name)
+                    .lowercase()
+                    .contains(busqueda) ||
+                        getString(R.string.admin_demo_email)
+                            .lowercase()
+                            .contains(busqueda) ||
+                        getString(R.string.administrator)
+                            .lowercase()
+                            .contains(busqueda)
 
             cardBuyer.visibility =
                 if (mostrarBuyer) View.VISIBLE else View.GONE
@@ -162,7 +182,7 @@ class UserManagementActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "No se encontraron usuarios",
+                    getString(R.string.no_users_found),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -180,12 +200,22 @@ class UserManagementActivity : AppCompatActivity() {
     ) {
 
         AlertDialog.Builder(this)
-            .setTitle("Eliminar usuario")
-            .setMessage(
-                "¿Deseas eliminar a $nombreUsuario?"
+            .setTitle(
+                getString(R.string.delete_user)
             )
-            .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Eliminar") { _, _ ->
+            .setMessage(
+                getString(
+                    R.string.delete_user_confirmation,
+                    nombreUsuario
+                )
+            )
+            .setNegativeButton(
+                getString(R.string.cancel),
+                null
+            )
+            .setPositiveButton(
+                getString(R.string.delete)
+            ) { _, _ ->
 
                 tarjetaUsuario.visibility = View.GONE
             }

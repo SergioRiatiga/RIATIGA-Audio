@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:text="Completa la información del usuario."
+            android:text="@string/user_form_description"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:text="Contraseña"
+            android:text="@string/password"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_small" />
 
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:text="Rol"
+            android:text="@string/role"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_small" />
 

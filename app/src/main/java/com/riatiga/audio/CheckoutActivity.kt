@@ -24,7 +24,9 @@ class CheckoutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_checkout)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -65,25 +67,34 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         // Mostrar cantidad
-        tvQuantity.text = "Cantidad: $cantidad"
+        tvQuantity.text = getString(
+            R.string.quantity_value,
+            cantidad
+        )
 
         // Mostrar total
         val totalFormateado = String.format(
-            "$%,d",
+            getString(R.string.currency_format),
             total
         ).replace(",", ".")
 
         tvTotal.text = totalFormateado
-        btnPay.text = "Pagar $totalFormateado"
+
+        btnPay.text = getString(
+            R.string.pay_amount,
+            totalFormateado
+        )
 
         // Uso de ubicación para demostración del frontend
         findViewById<AppCompatButton>(R.id.btnUseLocation).setOnClickListener {
 
-            etAddress.setText("Bogotá, Colombia")
+            etAddress.setText(
+                getString(R.string.demo_location)
+            )
 
             Toast.makeText(
                 this,
-                "Ubicación de demostración seleccionada",
+                getString(R.string.demo_location_selected),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -91,13 +102,14 @@ class CheckoutActivity : AppCompatActivity() {
         // Simulación del pago
         btnPay.setOnClickListener {
 
-            val direccion = etAddress.text.toString().trim()
+            val direccion =
+                etAddress.text.toString().trim()
 
             if (direccion.isEmpty()) {
 
                 Toast.makeText(
                     this,
-                    "Ingresa una dirección de entrega",
+                    getString(R.string.enter_delivery_address),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -105,12 +117,18 @@ class CheckoutActivity : AppCompatActivity() {
             }
 
             AlertDialog.Builder(this)
-                .setTitle("Pago realizado")
-                .setMessage(
-                    "La compra fue procesada correctamente.\n\n" +
-                            "Total: $totalFormateado"
+                .setTitle(
+                    getString(R.string.payment_completed)
                 )
-                .setPositiveButton("Aceptar") { _, _ ->
+                .setMessage(
+                    getString(
+                        R.string.payment_success_message,
+                        totalFormateado
+                    )
+                )
+                .setPositiveButton(
+                    getString(R.string.accept)
+                ) { _, _ ->
 
                     val intent = Intent(
                         this,

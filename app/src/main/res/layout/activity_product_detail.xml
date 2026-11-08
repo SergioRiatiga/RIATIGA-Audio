@@ -31,7 +31,7 @@
             android:textSize="@dimen/text_large_title"
             android:textStyle="bold" />
 
-        <!-- Área visual del producto -->
+        <!-- Imagen del producto -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="220dp"
@@ -41,24 +41,14 @@
             android:orientation="vertical"
             android:padding="@dimen/space_lg">
 
-            <TextView
-                android:id="@+id/tvProductVisual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/air_pro"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:letterSpacing="0.25"
-                android:text="@string/brand_subtitle"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_small" />
+            <ImageView
+                android:id="@+id/ivProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/air_pro"
+                android:scaleType="fitCenter"
+                android:src="@drawable/air_pro" />
 
         </LinearLayout>
 
