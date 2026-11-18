@@ -11,22 +11,42 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Pantalla para finalizar la compra.
+ * Verifica nuevamente el producto y su precio en Firestore.
+ */
 class CheckoutActivity : AppCompatActivity() {
 
-    private var productoSeleccionado = "air_pro"
+    private lateinit var db: FirebaseFirestore
+
+    private var productId: String? = null
+    private var codigoProducto = "air_pro"
+
     private var cantidad = 1
-    private var total = 699900
+    private var total = 0L
+
+    private lateinit var tvProduct: TextView
+    private lateinit var tvQuantity: TextView
+    private lateinit var tvTotal: TextView
+    private lateinit var btnPay: AppCompatButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_checkout)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-            )
+        db = FirebaseFirestore.getInstance()
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.main)
+        ) { v, insets ->
+
+            val systemBars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                )
 
             v.setPadding(
                 systemBars.left,
@@ -38,87 +58,103 @@ class CheckoutActivity : AppCompatActivity() {
             insets
         }
 
-        val tvProduct = findViewById<TextView>(R.id.tvCheckoutProduct)
-        val tvQuantity = findViewById<TextView>(R.id.tvCheckoutQuantity)
-        val tvTotal = findViewById<TextView>(R.id.tvCheckoutTotal)
-        val etAddress = findViewById<EditText>(R.id.etDeliveryAddress)
-        val btnPay = findViewById<AppCompatButton>(R.id.btnPay)
+        tvProduct =
+            findViewById(R.id.tvCheckoutProduct)
 
-        // Recibir información enviada desde el carrito
-        productoSeleccionado =
-            intent.getStringExtra("producto") ?: "air_pro"
+        tvQuantity =
+            findViewById(R.id.tvCheckoutQuantity)
+
+        tvTotal =
+            findViewById(R.id.tvCheckoutTotal)
+
+        val etAddress =
+            findViewById<EditText>(
+                R.id.etDeliveryAddress
+            )
+
+        btnPay =
+            findViewById(R.id.btnPay)
+
+        productId =
+            intent.getStringExtra("productId")
+
+        codigoProducto =
+            intent.getStringExtra("codigo")
+                ?: "air_pro"
 
         cantidad =
-            intent.getIntExtra("cantidad", 1)
+            intent.getIntExtra(
+                "cantidad",
+                1
+            )
 
         total =
-            intent.getIntExtra("total", 699900)
+            intent.getLongExtra(
+                "total",
+                0L
+            )
 
-        // Mostrar producto
-        when (productoSeleccionado) {
+        tvQuantity.text =
+            getString(
+                R.string.quantity_value,
+                cantidad
+            )
 
-            "one" -> {
-                tvProduct.text = getString(R.string.one)
-            }
+        /*
+         * Primero mostramos el valor recibido y
+         * después Firestore lo confirma y actualiza.
+         */
+        actualizarTotal(total)
 
-            else -> {
-                tvProduct.text = getString(R.string.air_pro)
-            }
-        }
+        cargarProductoActual()
 
-        // Mostrar cantidad
-        tvQuantity.text = getString(
-            R.string.quantity_value,
-            cantidad
-        )
-
-        // Mostrar total
-        val totalFormateado = String.format(
-            getString(R.string.currency_format),
-            total
-        ).replace(",", ".")
-
-        tvTotal.text = totalFormateado
-
-        btnPay.text = getString(
-            R.string.pay_amount,
-            totalFormateado
-        )
-
-        // Uso de ubicación para demostración del frontend
-        findViewById<AppCompatButton>(R.id.btnUseLocation).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnUseLocation
+        ).setOnClickListener {
 
             etAddress.setText(
-                getString(R.string.demo_location)
+                getString(
+                    R.string.demo_location
+                )
             )
 
             Toast.makeText(
                 this,
-                getString(R.string.demo_location_selected),
+                getString(
+                    R.string.demo_location_selected
+                ),
                 Toast.LENGTH_SHORT
             ).show()
         }
 
-        // Simulación del pago
         btnPay.setOnClickListener {
 
             val direccion =
-                etAddress.text.toString().trim()
+                etAddress.text
+                    .toString()
+                    .trim()
 
             if (direccion.isEmpty()) {
 
                 Toast.makeText(
                     this,
-                    getString(R.string.enter_delivery_address),
+                    getString(
+                        R.string.enter_delivery_address
+                    ),
                     Toast.LENGTH_SHORT
                 ).show()
 
                 return@setOnClickListener
             }
 
+            val totalFormateado =
+                formatearPrecio(total)
+
             AlertDialog.Builder(this)
                 .setTitle(
-                    getString(R.string.payment_completed)
+                    getString(
+                        R.string.payment_completed
+                    )
                 )
                 .setMessage(
                     getString(
@@ -127,27 +163,109 @@ class CheckoutActivity : AppCompatActivity() {
                     )
                 )
                 .setPositiveButton(
-                    getString(R.string.accept)
+                    getString(
+                        R.string.accept
+                    )
                 ) { _, _ ->
 
-                    val intent = Intent(
-                        this,
-                        BuyerHomeActivity::class.java
-                    )
+                    val intent =
+                        Intent(
+                            this,
+                            BuyerHomeActivity::class.java
+                        )
 
                     intent.flags =
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
                                 Intent.FLAG_ACTIVITY_SINGLE_TOP
 
                     startActivity(intent)
+
                     finish()
                 }
                 .show()
         }
 
-        // Volver al carrito
-        findViewById<AppCompatButton>(R.id.btnBack).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnBack
+        ).setOnClickListener {
+
             finish()
         }
+    }
+
+    /**
+     * Confirma nombre y precio directamente contra Firestore.
+     */
+    private fun cargarProductoActual() {
+
+        if (productId == null) {
+            return
+        }
+
+        db.collection("productos")
+            .document(productId!!)
+            .get()
+            .addOnSuccessListener { documento ->
+
+                if (documento.exists()) {
+
+                    val nombre =
+                        documento.getString("nombre")
+                            ?: "Producto"
+
+                    val precioTexto =
+                        documento.getString("precio")
+                            ?: "0"
+
+                    val precio =
+                        precioTexto.replace(
+                            Regex("[^0-9]"),
+                            ""
+                        ).toLongOrNull()
+                            ?: 0L
+
+                    tvProduct.text =
+                        nombre
+
+                    /*
+                     * El total se vuelve a calcular usando
+                     * el precio actual de Firestore.
+                     */
+                    total =
+                        precio * cantidad
+
+                    actualizarTotal(total)
+                }
+            }
+    }
+
+    private fun actualizarTotal(
+        nuevoTotal: Long
+    ) {
+
+        total =
+            nuevoTotal
+
+        val totalFormateado =
+            formatearPrecio(total)
+
+        tvTotal.text =
+            totalFormateado
+
+        btnPay.text =
+            getString(
+                R.string.pay_amount,
+                totalFormateado
+            )
+    }
+
+    private fun formatearPrecio(
+        precio: Long
+    ): String {
+
+        return "$" +
+                "%,d"
+                    .format(precio)
+                    .replace(",", ".")
     }
 }

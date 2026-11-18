@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1085106881450",
+    "project_id": "riatiga-audio",
+    "storage_bucket": "riatiga-audio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085106881450:android:c81d3d551051f66532a1d3",
+        "android_client_info": {
+          "package_name": "com.riatiga.audio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzWP3EcVpg4b078LApp4hQ4eOkvR9fFxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

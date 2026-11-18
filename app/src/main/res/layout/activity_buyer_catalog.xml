@@ -39,115 +39,15 @@
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
-        <!-- RIATIGA Air Pro -->
+        <!--
+            Aquí aparecerán automáticamente
+            los productos encontrados en Firestore.
+        -->
         <LinearLayout
-            android:id="@+id/cardAirPro"
+            android:id="@+id/productsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
-            android:background="@drawable/bg_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            android:padding="@dimen/space_lg">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/air_pro"
-                android:scaleType="fitCenter"
-                android:src="@drawable/air_pro" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:text="@string/air_pro"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_subtitle"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/air_pro_price"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/product_features"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:text="@string/product_detail"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- RIATIGA One -->
-        <LinearLayout
-            android:id="@+id/cardOne"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
-            android:background="@drawable/bg_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            android:padding="@dimen/space_lg">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/one"
-                android:scaleType="fitCenter"
-                android:src="@drawable/riatiga_one" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:text="@string/one"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_subtitle"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/one_price"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/one_features"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:text="@string/product_detail"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+            android:orientation="vertical" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBack"

@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class AdminDashboardActivity : AppCompatActivity() {
 
@@ -17,6 +18,7 @@ class AdminDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin_dashboard)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
             val systemBars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
             )
@@ -82,6 +84,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(
             R.id.btnLogout
         ).setOnClickListener {
+
+            // Cierra la sesión activa de Firebase
+            FirebaseAuth.getInstance().signOut()
 
             val intent =
                 Intent(

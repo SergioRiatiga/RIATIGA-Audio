@@ -13,18 +13,32 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Pantalla de inicio de sesión.
+ * Valida las credenciales con Firebase Authentication
+ * y consulta el rol del usuario en Firestore.
+ */
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
+        // Servicios de Firebase
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-            )
+
+            val systemBars =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.setPadding(
                 systemBars.left,
@@ -36,43 +50,113 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val etEmail = findViewById<EditText>(R.id.etEmail)
-        val etPassword = findViewById<EditText>(R.id.etPassword)
-        val btnLogin = findViewById<AppCompatButton>(R.id.btnLogin)
-        val btnBiometric = findViewById<AppCompatButton>(R.id.btnBiometric)
+        val etEmail =
+            findViewById<EditText>(R.id.etEmail)
 
-        // Inicio de sesión normal según las credenciales y el rol
+        val etPassword =
+            findViewById<EditText>(R.id.etPassword)
+
+        val btnLogin =
+            findViewById<AppCompatButton>(R.id.btnLogin)
+
+        val btnBiometric =
+            findViewById<AppCompatButton>(R.id.btnBiometric)
+
+        val btnRegister =
+            findViewById<AppCompatButton>(R.id.btnRegister)
+
+        // Inicio de sesión con Firebase
         btnLogin.setOnClickListener {
 
-            val email = etEmail.text.toString().trim().lowercase()
-            val password = etPassword.text.toString()
+            val email =
+                etEmail.text.toString().trim().lowercase()
 
-            if (password != "1234") {
+            val password =
+                etPassword.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
                 mostrarCredencialesIncorrectas()
                 return@setOnClickListener
             }
 
-            when (email) {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
 
-                "comprador@riatiga.com" -> {
-                    guardarUltimoRol("buyer")
-                    abrirPantallaSegunRol("buyer")
-                }
+                    if (task.isSuccessful) {
 
-                "vendedor@riatiga.com" -> {
-                    guardarUltimoRol("seller")
-                    abrirPantallaSegunRol("seller")
-                }
+                        consultarRol(email)
 
-                "admin@riatiga.com" -> {
-                    guardarUltimoRol("admin")
-                    abrirPantallaSegunRol("admin")
-                }
+                    } else {
 
-                else -> {
-                    mostrarCredencialesIncorrectas()
+                        mostrarCredencialesIncorrectas()
+                    }
                 }
+        }
+
+        // Registro de nuevos usuarios.
+        // Todo usuario registrado desde la aplicación se crea como comprador.
+        btnRegister.setOnClickListener {
+
+            val email =
+                etEmail.text.toString().trim().lowercase()
+
+            val password =
+                etPassword.text.toString()
+
+            if (email.isEmpty() || password.length < 6) {
+
+                Toast.makeText(
+                    this,
+                    "Ingresa un correo válido y una contraseña de mínimo 6 caracteres",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                return@setOnClickListener
             }
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+
+                    if (task.isSuccessful) {
+
+                        val usuario = hashMapOf(
+                            "nombre" to "Comprador",
+                            "correo" to email,
+                            "rol" to "buyer"
+                        )
+
+                        db.collection("usuarios")
+                            .document(email)
+                            .set(usuario)
+                            .addOnSuccessListener {
+
+                                Toast.makeText(
+                                    this,
+                                    "Cuenta creada correctamente",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                guardarUltimoRol("buyer")
+                                abrirPantallaSegunRol("buyer")
+                            }
+                            .addOnFailureListener {
+
+                                Toast.makeText(
+                                    this,
+                                    "No fue posible guardar el usuario",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                    } else {
+
+                        Toast.makeText(
+                            this,
+                            "No fue posible crear la cuenta",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
 
         // Inicio de sesión biométrico
@@ -81,25 +165,77 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Recuperación de contraseña
-        findViewById<TextView>(R.id.tvForgotPassword).setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    RecoverPasswordActivity::class.java
+        findViewById<TextView>(R.id.tvForgotPassword)
+            .setOnClickListener {
+
+                startActivity(
+                    Intent(
+                        this,
+                        RecoverPasswordActivity::class.java
+                    )
                 )
-            )
-        }
+            }
     }
 
+    /**
+     * Consulta el rol del usuario en Firestore.
+     */
+    private fun consultarRol(email: String) {
+
+        db.collection("usuarios")
+            .document(email)
+            .get()
+            .addOnSuccessListener { documento ->
+
+                if (documento.exists()) {
+
+                    val rol =
+                        documento.getString("rol")
+
+                    if (rol != null) {
+
+                        guardarUltimoRol(rol)
+                        abrirPantallaSegunRol(rol)
+
+                    } else {
+
+                        mostrarUsuarioSinRol()
+                    }
+
+                } else {
+
+                    mostrarUsuarioSinRol()
+                }
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(
+                    this,
+                    "No fue posible consultar el usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                auth.signOut()
+            }
+    }
+
+    /**
+     * Comprueba la disponibilidad de autenticación biométrica.
+     */
     private fun iniciarAutenticacionBiometrica() {
 
         val preferencias =
-            getSharedPreferences("riatiga_preferences", MODE_PRIVATE)
+            getSharedPreferences(
+                "riatiga_preferences",
+                MODE_PRIVATE
+            )
 
         val ultimoRol =
-            preferencias.getString("ultimo_rol", null)
+            preferencias.getString(
+                "ultimo_rol",
+                null
+            )
 
-        // Primero debe existir un inicio de sesión normal
         if (ultimoRol == null) {
 
             Toast.makeText(
@@ -158,6 +294,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Muestra la ventana de autenticación biométrica.
+     */
     private fun mostrarDialogoBiometrico(rol: String) {
 
         val executor =
@@ -167,7 +306,8 @@ class LoginActivity : AppCompatActivity() {
             BiometricPrompt(
                 this,
                 executor,
-                object : BiometricPrompt.AuthenticationCallback() {
+                object :
+                    BiometricPrompt.AuthenticationCallback() {
 
                     override fun onAuthenticationSucceeded(
                         result: BiometricPrompt.AuthenticationResult
@@ -192,29 +332,28 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
-                    override fun onAuthenticationError(
-                        errorCode: Int,
-                        errString: CharSequence
-                    ) {
-                        super.onAuthenticationError(
-                            errorCode,
-                            errString
-                        )
-                    }
                 }
             )
 
         val promptInfo =
             BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getString(R.string.biometric_title))
-                .setSubtitle(getString(R.string.biometric_subtitle))
-                .setNegativeButtonText(getString(R.string.cancel))
+                .setTitle(
+                    getString(R.string.biometric_title)
+                )
+                .setSubtitle(
+                    getString(R.string.biometric_subtitle)
+                )
+                .setNegativeButtonText(
+                    getString(R.string.cancel)
+                )
                 .build()
 
         biometricPrompt.authenticate(promptInfo)
     }
 
+    /**
+     * Guarda el último rol utilizado para el acceso biométrico.
+     */
     private fun guardarUltimoRol(rol: String) {
 
         val preferencias =
@@ -228,6 +367,9 @@ class LoginActivity : AppCompatActivity() {
             .apply()
     }
 
+    /**
+     * Abre la pantalla correspondiente al rol del usuario.
+     */
     private fun abrirPantallaSegunRol(rol: String) {
 
         when (rol) {
@@ -258,9 +400,19 @@ class LoginActivity : AppCompatActivity() {
                     )
                 )
             }
+
+            else -> {
+                mostrarUsuarioSinRol()
+                return
+            }
         }
+
+        finish()
     }
 
+    /**
+     * Muestra un mensaje cuando las credenciales son incorrectas.
+     */
     private fun mostrarCredencialesIncorrectas() {
 
         Toast.makeText(
@@ -268,5 +420,19 @@ class LoginActivity : AppCompatActivity() {
             getString(R.string.invalid_credentials),
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    /**
+     * Muestra un mensaje cuando el usuario no tiene un rol en Firestore.
+     */
+    private fun mostrarUsuarioSinRol() {
+
+        Toast.makeText(
+            this,
+            "Usuario sin rol asignado",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        auth.signOut()
     }
 }

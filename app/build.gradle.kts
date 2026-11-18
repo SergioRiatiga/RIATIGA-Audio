@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+
+    // Conecta la aplicación con Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -47,6 +50,15 @@ dependencies {
 
     // Autenticación biométrica
     implementation("androidx.biometric:biometric:1.1.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+
+    // Inicio de sesión, registro y recuperación de contraseña
+    implementation("com.google.firebase:firebase-auth")
+
+    // Base de datos
+    implementation("com.google.firebase:firebase-firestore")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

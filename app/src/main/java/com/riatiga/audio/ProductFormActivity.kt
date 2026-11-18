@@ -9,20 +9,36 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Formulario para crear y editar productos almacenados en Firestore.
+ *
+ * Cada producto conserva un código interno que permite identificarlo
+ * aunque posteriormente cambie su nombre.
+ */
 class ProductFormActivity : AppCompatActivity() {
 
-    private var productoSeleccionado: String? = null
+    private lateinit var db: FirebaseFirestore
+
+    private var productId: String? = null
+    private var codigoProducto = "generico"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_product_form)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-            )
+        db = FirebaseFirestore.getInstance()
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.main)
+        ) { v, insets ->
+
+            val systemBars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                )
 
             v.setPadding(
                 systemBars.left,
@@ -34,53 +50,59 @@ class ProductFormActivity : AppCompatActivity() {
             insets
         }
 
-        val tvTitle = findViewById<TextView>(R.id.tvProductFormTitle)
+        val tvTitle =
+            findViewById<TextView>(R.id.tvProductFormTitle)
 
-        val etName = findViewById<EditText>(R.id.etProductName)
-        val etPrice = findViewById<EditText>(R.id.etProductPrice)
-        val etStock = findViewById<EditText>(R.id.etProductStock)
-        val etFeatures = findViewById<EditText>(R.id.etProductFeatures)
+        val etName =
+            findViewById<EditText>(R.id.etProductName)
 
-        productoSeleccionado = intent.getStringExtra("producto")
+        val etPrice =
+            findViewById<EditText>(R.id.etProductPrice)
 
-        /*
-         * Si no recibimos un producto, el formulario funciona
-         * como creación de un producto nuevo.
-         *
-         * Si recibimos "air_pro" o "one", funciona como edición.
-         */
-        when (productoSeleccionado) {
+        val etStock =
+            findViewById<EditText>(R.id.etProductStock)
 
-            "air_pro" -> {
-                tvTitle.text = getString(R.string.edit_product)
+        val etFeatures =
+            findViewById<EditText>(R.id.etProductFeatures)
 
-                etName.setText(getString(R.string.air_pro))
-                etPrice.setText(getString(R.string.air_pro_price_input))
-                etStock.setText(getString(R.string.air_pro_stock_input))
-                etFeatures.setText(getString(R.string.product_features))
-            }
+        productId =
+            intent.getStringExtra("productId")
 
-            "one" -> {
-                tvTitle.text = getString(R.string.edit_product)
+        if (productId != null) {
 
-                etName.setText(getString(R.string.one))
-                etPrice.setText(getString(R.string.one_price_input))
-                etStock.setText(getString(R.string.one_stock_input))
-                etFeatures.setText(getString(R.string.one_features))
-            }
+            tvTitle.text =
+                getString(R.string.edit_product)
 
-            else -> {
-                tvTitle.text = getString(R.string.new_product)
-            }
+            cargarProducto(
+                productId!!,
+                etName,
+                etPrice,
+                etStock,
+                etFeatures
+            )
+
+        } else {
+
+            tvTitle.text =
+                getString(R.string.new_product)
         }
 
         // Guardar producto
-        findViewById<AppCompatButton>(R.id.btnSaveProduct).setOnClickListener {
+        findViewById<AppCompatButton>(
+            R.id.btnSaveProduct
+        ).setOnClickListener {
 
-            val nombre = etName.text.toString().trim()
-            val precio = etPrice.text.toString().trim()
-            val stock = etStock.text.toString().trim()
-            val caracteristicas = etFeatures.text.toString().trim()
+            val nombre =
+                etName.text.toString().trim()
+
+            val precio =
+                etPrice.text.toString().trim()
+
+            val stock =
+                etStock.text.toString().trim()
+
+            val caracteristicas =
+                etFeatures.text.toString().trim()
 
             if (
                 nombre.isEmpty() ||
@@ -98,29 +120,159 @@ class ProductFormActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (productoSeleccionado == null) {
+            /*
+             * Solo cuando el producto es nuevo se determina
+             * inicialmente qué imagen local le corresponde.
+             *
+             * Después ese código se conserva aunque cambie el nombre.
+             */
+            if (productId == null) {
 
-                Toast.makeText(
-                    this,
-                    getString(R.string.product_created),
-                    Toast.LENGTH_SHORT
-                ).show()
+                codigoProducto =
+                    obtenerCodigoInicial(nombre)
+            }
+
+            val producto =
+                hashMapOf(
+                    "nombre" to nombre,
+                    "precio" to precio,
+                    "stock" to stock,
+                    "caracteristicas" to caracteristicas,
+                    "codigo" to codigoProducto
+                )
+
+            if (productId == null) {
+
+                db.collection("productos")
+                    .add(producto)
+                    .addOnSuccessListener {
+
+                        Toast.makeText(
+                            this,
+                            getString(R.string.product_created),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        finish()
+                    }
+                    .addOnFailureListener {
+
+                        Toast.makeText(
+                            this,
+                            "No fue posible crear el producto",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
             } else {
 
-                Toast.makeText(
-                    this,
-                    getString(R.string.product_updated),
-                    Toast.LENGTH_SHORT
-                ).show()
+                db.collection("productos")
+                    .document(productId!!)
+                    .set(producto)
+                    .addOnSuccessListener {
+
+                        Toast.makeText(
+                            this,
+                            getString(R.string.product_updated),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        finish()
+                    }
+                    .addOnFailureListener {
+
+                        Toast.makeText(
+                            this,
+                            "No fue posible actualizar el producto",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
+        }
+
+        findViewById<AppCompatButton>(
+            R.id.btnCancel
+        ).setOnClickListener {
 
             finish()
         }
+    }
 
-        // Cancelar
-        findViewById<AppCompatButton>(R.id.btnCancel).setOnClickListener {
-            finish()
+    /**
+     * Carga el producto seleccionado directamente por su ID de Firestore.
+     */
+    private fun cargarProducto(
+        id: String,
+        etName: EditText,
+        etPrice: EditText,
+        etStock: EditText,
+        etFeatures: EditText
+    ) {
+
+        db.collection("productos")
+            .document(id)
+            .get()
+            .addOnSuccessListener { documento ->
+
+                if (documento.exists()) {
+
+                    val nombre =
+                        documento.getString("nombre") ?: ""
+
+                    etName.setText(nombre)
+
+                    etPrice.setText(
+                        documento.getString("precio") ?: ""
+                    )
+
+                    etStock.setText(
+                        documento.getString("stock") ?: ""
+                    )
+
+                    etFeatures.setText(
+                        documento.getString("caracteristicas") ?: ""
+                    )
+
+                    /*
+                     * Si el producto ya tenía código se conserva.
+                     * Si es un producto antiguo, se determina una sola vez.
+                     */
+                    codigoProducto =
+                        documento.getString("codigo")
+                            ?: obtenerCodigoInicial(nombre)
+                }
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(
+                    this,
+                    "No fue posible cargar el producto",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    /**
+     * Determina qué imagen local corresponde inicialmente al producto.
+     */
+    private fun obtenerCodigoInicial(
+        nombre: String
+    ): String {
+
+        val nombreNormalizado =
+            nombre.lowercase()
+
+        return when {
+
+            nombreNormalizado.contains("air pro") ->
+                "air_pro"
+
+            nombreNormalizado.contains("riatiga one") ||
+                    nombreNormalizado == "one" ->
+                "one"
+
+            else ->
+                "generico"
         }
     }
 }
