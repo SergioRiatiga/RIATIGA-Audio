@@ -1,136 +1,141 @@
 package com.riatiga.audio
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 
-/**
- * Pantalla para finalizar la compra.
- * Verifica nuevamente el producto y su precio en Firestore.
- */
 class CheckoutActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
 
-    private var productId: String? = null
-    private var codigoProducto = "air_pro"
+    private val fusedLocationClient by lazy {
+        LocationServices.getFusedLocationProviderClient(this)
+    }
 
+    private lateinit var tvCheckoutProduct: TextView
+    private lateinit var tvCheckoutQuantity: TextView
+    private lateinit var tvCheckoutTotal: TextView
+    private lateinit var etDeliveryAddress: EditText
+    private lateinit var btnUseLocation: AppCompatButton
+    private lateinit var btnPay: AppCompatButton
+
+    private var productId = ""
+    private var codigoProducto = ""
     private var cantidad = 1
     private var total = 0L
 
-    private lateinit var tvProduct: TextView
-    private lateinit var tvQuantity: TextView
-    private lateinit var tvTotal: TextView
-    private lateinit var btnPay: AppCompatButton
+    /*
+     * Solicita permisos de ubicación.
+     */
+    private val locationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permisos ->
+
+            val permisoPreciso =
+                permisos[Manifest.permission.ACCESS_FINE_LOCATION]
+                    ?: false
+
+            val permisoAproximado =
+                permisos[Manifest.permission.ACCESS_COARSE_LOCATION]
+                    ?: false
+
+            if (permisoPreciso || permisoAproximado) {
+
+                obtenerUbicacion()
+
+            } else {
+
+                Toast.makeText(
+                    this,
+                    "No se concedió permiso de ubicación",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_checkout)
 
         db = FirebaseFirestore.getInstance()
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.main)
-        ) { v, insets ->
-
-            val systemBars =
-                insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                )
-
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
-
-            insets
-        }
-
-        tvProduct =
+        tvCheckoutProduct =
             findViewById(R.id.tvCheckoutProduct)
 
-        tvQuantity =
+        tvCheckoutQuantity =
             findViewById(R.id.tvCheckoutQuantity)
 
-        tvTotal =
+        tvCheckoutTotal =
             findViewById(R.id.tvCheckoutTotal)
 
-        val etAddress =
-            findViewById<EditText>(
-                R.id.etDeliveryAddress
-            )
+        etDeliveryAddress =
+            findViewById(R.id.etDeliveryAddress)
+
+        btnUseLocation =
+            findViewById(R.id.btnUseLocation)
 
         btnPay =
             findViewById(R.id.btnPay)
 
         productId =
-            intent.getStringExtra("productId")
+            intent.getStringExtra("productId") ?: ""
 
         codigoProducto =
-            intent.getStringExtra("codigo")
-                ?: "air_pro"
+            intent.getStringExtra("codigo") ?: ""
 
         cantidad =
-            intent.getIntExtra(
-                "cantidad",
-                1
-            )
+            intent.getIntExtra("cantidad", 1)
 
         total =
-            intent.getLongExtra(
-                "total",
-                0L
-            )
+            intent.getLongExtra("total", 0L)
 
-        tvQuantity.text =
-            getString(
-                R.string.quantity_value,
-                cantidad
-            )
+        tvCheckoutQuantity.text =
+            "Cantidad: $cantidad"
 
-        /*
-         * Primero mostramos el valor recibido y
-         * después Firestore lo confirma y actualiza.
-         */
-        actualizarTotal(total)
+        tvCheckoutTotal.text =
+            formatearPrecio(total)
+
+        btnPay.text =
+            "Pagar ${formatearPrecio(total)}"
 
         cargarProductoActual()
 
-        findViewById<AppCompatButton>(
-            R.id.btnUseLocation
-        ).setOnClickListener {
+        /*
+         * Obtiene ubicación real y la convierte
+         * en una dirección legible.
+         */
+        btnUseLocation.setOnClickListener {
 
-            etAddress.setText(
-                getString(
-                    R.string.demo_location
-                )
-            )
-
-            Toast.makeText(
-                this,
-                getString(
-                    R.string.demo_location_selected
-                ),
-                Toast.LENGTH_SHORT
-            ).show()
+            comprobarPermisosUbicacion()
         }
 
+        /*
+         * El usuario todavía puede modificar
+         * manualmente la dirección antes de pagar.
+         */
         btnPay.setOnClickListener {
 
             val direccion =
-                etAddress.text
+                etDeliveryAddress.text
                     .toString()
                     .trim()
 
@@ -138,51 +143,14 @@ class CheckoutActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    getString(
-                        R.string.enter_delivery_address
-                    ),
+                    "Ingresa una dirección de entrega",
                     Toast.LENGTH_SHORT
                 ).show()
 
                 return@setOnClickListener
             }
 
-            val totalFormateado =
-                formatearPrecio(total)
-
-            AlertDialog.Builder(this)
-                .setTitle(
-                    getString(
-                        R.string.payment_completed
-                    )
-                )
-                .setMessage(
-                    getString(
-                        R.string.payment_success_message,
-                        totalFormateado
-                    )
-                )
-                .setPositiveButton(
-                    getString(
-                        R.string.accept
-                    )
-                ) { _, _ ->
-
-                    val intent =
-                        Intent(
-                            this,
-                            BuyerHomeActivity::class.java
-                        )
-
-                    intent.flags =
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                                Intent.FLAG_ACTIVITY_SINGLE_TOP
-
-                    startActivity(intent)
-
-                    finish()
-                }
-                .show()
+            guardarPedido(direccion)
         }
 
         findViewById<AppCompatButton>(
@@ -194,78 +162,413 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     /**
-     * Confirma nombre y precio directamente contra Firestore.
+     * Comprueba los permisos de ubicación.
      */
-    private fun cargarProductoActual() {
+    private fun comprobarPermisosUbicacion() {
 
-        if (productId == null) {
+        val permisoPreciso =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+        val permisoAproximado =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
+        if (
+            permisoPreciso ==
+            PackageManager.PERMISSION_GRANTED ||
+            permisoAproximado ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+
+            obtenerUbicacion()
+
+        } else {
+
+            locationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    /**
+     * Obtiene la ubicación actual.
+     */
+    private fun obtenerUbicacion() {
+
+        val permisoPreciso =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+        val permisoAproximado =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
+        if (
+            permisoPreciso != PackageManager.PERMISSION_GRANTED &&
+            permisoAproximado != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
 
-        db.collection("productos")
-            .document(productId!!)
-            .get()
-            .addOnSuccessListener { documento ->
+        Toast.makeText(
+            this,
+            "Obteniendo ubicación...",
+            Toast.LENGTH_SHORT
+        ).show()
 
-                if (documento.exists()) {
+        val cancellationToken =
+            CancellationTokenSource()
+
+        fusedLocationClient
+            .getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                cancellationToken.token
+            )
+            .addOnSuccessListener { ubicacion ->
+
+                if (ubicacion != null) {
+
+                    convertirCoordenadasADireccion(
+                        ubicacion.latitude,
+                        ubicacion.longitude
+                    )
+
+                } else {
+
+                    Toast.makeText(
+                        this,
+                        "No fue posible obtener la ubicación",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .addOnFailureListener { error ->
+
+                Toast.makeText(
+                    this,
+                    "Error de ubicación: ${error.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
+
+    /**
+     * Convierte latitud y longitud
+     * en una dirección legible.
+     */
+    private fun convertirCoordenadasADireccion(
+        latitud: Double,
+        longitud: Double
+    ) {
+
+        val geocoder =
+            Geocoder(
+                this,
+                Locale("es", "CO")
+            )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            geocoder.getFromLocation(
+                latitud,
+                longitud,
+                1
+            ) { direcciones ->
+
+                runOnUiThread {
+
+                    if (direcciones.isNotEmpty()) {
+
+                        val direccion =
+                            direcciones[0]
+                                .getAddressLine(0)
+
+                        etDeliveryAddress.setText(
+                            direccion
+                        )
+
+                        Toast.makeText(
+                            this,
+                            "Ubicación encontrada",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    } else {
+
+                        mostrarCoordenadas(
+                            latitud,
+                            longitud
+                        )
+                    }
+                }
+            }
+
+        } else {
+
+            try {
+
+                @Suppress("DEPRECATION")
+                val direcciones =
+                    geocoder.getFromLocation(
+                        latitud,
+                        longitud,
+                        1
+                    )
+
+                if (!direcciones.isNullOrEmpty()) {
+
+                    val direccion =
+                        direcciones[0]
+                            .getAddressLine(0)
+
+                    etDeliveryAddress.setText(
+                        direccion
+                    )
+
+                    Toast.makeText(
+                        this,
+                        "Ubicación encontrada",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+
+                    mostrarCoordenadas(
+                        latitud,
+                        longitud
+                    )
+                }
+
+            } catch (e: Exception) {
+
+                mostrarCoordenadas(
+                    latitud,
+                    longitud
+                )
+            }
+        }
+    }
+
+    /**
+     * Si no se puede obtener una dirección,
+     * deja las coordenadas como respaldo.
+     */
+    private fun mostrarCoordenadas(
+        latitud: Double,
+        longitud: Double
+    ) {
+
+        val lat =
+            String.format(
+                Locale.US,
+                "%.6f",
+                latitud
+            )
+
+        val lon =
+            String.format(
+                Locale.US,
+                "%.6f",
+                longitud
+            )
+
+        etDeliveryAddress.setText(
+            "Lat: $lat, Long: $lon"
+        )
+
+        Toast.makeText(
+            this,
+            "Se obtuvo la ubicación, pero no la dirección",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    /**
+     * Carga el producto actual desde Firestore.
+     */
+    private fun cargarProductoActual() {
+
+        if (productId.isNotEmpty()) {
+
+            db.collection("productos")
+                .document(productId)
+                .get()
+                .addOnSuccessListener { documento ->
+
+                    if (documento.exists()) {
+
+                        val nombre =
+                            documento.getString("nombre")
+                                ?: "Producto"
+
+                        val precio =
+                            (documento.get("precio") as? Number)
+                                ?.toLong() ?: 0L
+
+                        tvCheckoutProduct.text =
+                            nombre
+
+                        if (precio > 0) {
+
+                            total =
+                                precio * cantidad
+
+                            tvCheckoutTotal.text =
+                                formatearPrecio(total)
+
+                            btnPay.text =
+                                "Pagar ${formatearPrecio(total)}"
+                        }
+                    }
+                }
+
+        } else if (codigoProducto.isNotEmpty()) {
+
+            db.collection("productos")
+                .whereEqualTo(
+                    "codigo",
+                    codigoProducto
+                )
+                .limit(1)
+                .get()
+                .addOnSuccessListener { resultado ->
+
+                    val documento =
+                        resultado.documents.firstOrNull()
+                            ?: return@addOnSuccessListener
+
+                    productId =
+                        documento.id
 
                     val nombre =
                         documento.getString("nombre")
                             ?: "Producto"
 
-                    val precioTexto =
-                        documento.getString("precio")
-                            ?: "0"
-
                     val precio =
-                        precioTexto.replace(
-                            Regex("[^0-9]"),
-                            ""
-                        ).toLongOrNull()
-                            ?: 0L
+                        (documento.get("precio") as? Number)
+                            ?.toLong() ?: 0L
 
-                    tvProduct.text =
+                    tvCheckoutProduct.text =
                         nombre
 
-                    /*
-                     * El total se vuelve a calcular usando
-                     * el precio actual de Firestore.
-                     */
-                    total =
-                        precio * cantidad
+                    if (precio > 0) {
 
-                    actualizarTotal(total)
+                        total =
+                            precio * cantidad
+
+                        tvCheckoutTotal.text =
+                            formatearPrecio(total)
+
+                        btnPay.text =
+                            "Pagar ${formatearPrecio(total)}"
+                    }
                 }
+        }
+    }
+
+    /**
+     * Guarda el pedido en Firestore.
+     */
+    private fun guardarPedido(
+        direccion: String
+    ) {
+
+        val correoComprador =
+            FirebaseAuth.getInstance()
+                .currentUser
+                ?.email
+                ?: "Comprador"
+
+        val pedido =
+            hashMapOf(
+                "productId" to productId,
+                "codigo" to codigoProducto,
+                "producto" to tvCheckoutProduct.text.toString(),
+                "cantidad" to cantidad,
+                "total" to total,
+                "direccion" to direccion,
+                "comprador" to correoComprador,
+                "estado" to "Preparando",
+                "fecha" to FieldValue.serverTimestamp()
+            )
+
+        btnPay.isEnabled = false
+
+        db.collection("pedidos")
+            .add(pedido)
+            .addOnSuccessListener {
+
+                mostrarCompraExitosa()
+            }
+            .addOnFailureListener { error ->
+
+                btnPay.isEnabled = true
+
+                Toast.makeText(
+                    this,
+                    "Error: ${error.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 
-    private fun actualizarTotal(
-        nuevoTotal: Long
-    ) {
+    /**
+     * Mensaje de compra exitosa.
+     */
+    private fun mostrarCompraExitosa() {
 
-        total =
-            nuevoTotal
-
-        val totalFormateado =
-            formatearPrecio(total)
-
-        tvTotal.text =
-            totalFormateado
-
-        btnPay.text =
-            getString(
-                R.string.pay_amount,
-                totalFormateado
+        AlertDialog.Builder(this)
+            .setTitle("Pago realizado")
+            .setMessage(
+                "La compra fue procesada correctamente.\n\n" +
+                        "Total: ${formatearPrecio(total)}"
             )
+            .setPositiveButton(
+                "Aceptar"
+            ) { _, _ ->
+
+                val intent =
+                    Intent(
+                        this,
+                        BuyerHomeActivity::class.java
+                    )
+
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                startActivity(intent)
+                finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 
+    /**
+     * Convierte 849900 en $849.900.
+     */
     private fun formatearPrecio(
-        precio: Long
+        valor: Long
     ): String {
 
-        return "$" +
-                "%,d"
-                    .format(precio)
-                    .replace(",", ".")
+        val numero =
+            String.format(
+                Locale.US,
+                "%,d",
+                valor
+            ).replace(",", ".")
+
+        return "$$numero"
     }
 }

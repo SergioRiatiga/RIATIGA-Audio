@@ -39,7 +39,7 @@
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_body" />
 
-        <!-- Ingresos -->
+        <!-- Ingresos totales -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/total_revenue_value"
+                android:text="$0"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_title"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <!-- Resumen de indicadores -->
+        <!-- Indicadores -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_sm"
-                    android:text="@string/total_orders_value"
+                    android:text="0"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_title"
                     android:textStyle="bold" />
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_sm"
-                    android:text="@string/units_sold_value"
+                    android:text="0"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_title"
                     android:textStyle="bold" />
@@ -134,7 +134,7 @@
 
         </LinearLayout>
 
-        <!-- Desempeño por producto -->
+        <!-- Ventas por producto -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,26 +154,29 @@
             android:padding="@dimen/space_lg">
 
             <TextView
+                android:id="@+id/tvAirProName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/air_pro"
+                android:text="RIATIGA Air Pro"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvAirProUnits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/air_pro_units_sold"
+                android:text="0 unidades vendidas"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
             <TextView
+                android:id="@+id/tvAirProSales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/air_pro_sales"
+                android:text="$0"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />
@@ -185,7 +188,7 @@
                 android:layout_height="8dp"
                 android:layout_marginTop="@dimen/space_md"
                 android:max="100"
-                android:progress="60"
+                android:progress="0"
                 android:progressTint="@color/black" />
 
         </LinearLayout>
@@ -200,26 +203,29 @@
             android:padding="@dimen/space_lg">
 
             <TextView
+                android:id="@+id/tvOneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/one"
+                android:text="RIATIGA One"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_subtitle"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvOneUnits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/one_units_sold"
+                android:text="0 unidades vendidas"
                 android:textColor="@color/text_secondary"
                 android:textSize="@dimen/text_body" />
 
             <TextView
+                android:id="@+id/tvOneSales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:text="@string/one_sales"
+                android:text="$0"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />
@@ -231,7 +237,7 @@
                 android:layout_height="8dp"
                 android:layout_marginTop="@dimen/space_md"
                 android:max="100"
-                android:progress="40"
+                android:progress="0"
                 android:progressTint="@color/black" />
 
         </LinearLayout>
